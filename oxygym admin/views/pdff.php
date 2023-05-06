@@ -3,10 +3,12 @@
  function fetch_data()  
  {  
       $output = '';  
-      $connect = mysqli_connect("localhost", "root", "", "projet");  
+$connect = new PDO("mysql:host=localhost;dbname=projet;charset:utf8", "root", "");
       $sql = "SELECT * FROM coach ORDER BY cin ASC";  
-      $result = mysqli_query($connect, $sql);  
-      while($row = mysqli_fetch_array($result))  
+      $result = $connect->prepare($sql);
+$result->execute();  
+
+      while($row = $result->fetchAll(PDO::FETCH_ASSOC))  
       {       
       $output .= '<tr>  
                           <td>'.$row["cin"].'</td>  

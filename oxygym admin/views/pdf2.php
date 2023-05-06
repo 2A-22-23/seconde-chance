@@ -11,22 +11,27 @@
       ?>
       <?php
       $output = '';  
-      $connect = mysqli_connect("localhost", "root", "", "projet");  
+$connect = new PDO("mysql:host=localhost;dbname=projet;charset:utf8", "root", "");
       $sql = "SELECT * FROM client ORDER BY id ASC";  
-      $result = mysqli_query($connect, $sql);  
-      while($row = mysqli_fetch_array($result))  
+      $result = $connect->prepare($sql);
+$result->execute();  
+
+      while($row = $result->fetchAll(PDO::FETCH_ASSOC))  
       {       
+        for($i = 0; $i < count($row); $i++)
+        { 
       $output .= '<tr>  
-                          <td>'.$row["id"].'</td>  
-                          <td>'.$row["nom"].'</td>  
-                          <td>'.$row["prenom"].'</td>  
-                          <td>'.$row["age"].'</td>  
-                          <td>'.$row["num"].'</td>
-                          <td>'.$row["email"].'</td> 
-                          <td>'.$row["role"].'</td> 
+                          <td>'.$row[$i]["id"].'</td>  
+                          <td>'.$row[$i]["nom"].'</td>  
+                          <td>'.$row[$i]["prenom"].'</td>  
+                          <td>'.$row[$i]["age"].'</td>  
+                          <td>'.$row[$i]["num"].'</td>
+                          <td>'.$row[$i]["email"].'</td> 
+                          <td>'.$row[$i]["role"].'</td> 
                      </tr>  
                           ';  
       }  
+    }
      ?>
     
     

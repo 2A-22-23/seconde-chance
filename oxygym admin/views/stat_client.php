@@ -1,13 +1,15 @@
 
 <?php 
-$connect = mysqli_connect("localhost", "root", "", "projet");
+$connect = new PDO("mysql:host=localhost;dbname=projet;charset:utf8", "root", "");
 $query = "SELECT * FROM client where role = 'admin'";
-$result = mysqli_query($connect, $query);
-$nbAdmin = mysqli_num_rows($result);
+$result = $connect->prepare($query);
+$result->execute();
+$nbAdmin = $result->rowCount();
 echo "<br>";
 $query = "SELECT * FROM client where role = 'user'";
-$result = mysqli_query($connect, $query);
-$nbUser = mysqli_num_rows($result);
+$result = $connect->prepare( $query);
+$result->execute();
+$nbUser = $result->rowCount();
 echo "<br>";
 $chart_data = '';
 $chart_data .= "{ admin:'".$nbAdmin."', user:".$nbUser."}, ";

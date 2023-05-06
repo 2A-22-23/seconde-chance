@@ -1,10 +1,11 @@
 
 <?php 
-$connect = mysqli_connect("localhost", "root", "", "projet");
+$connect = new PDO("mysql:host=localhost;dbname=projet;charset:utf8", "root", "");
 $query = "SELECT * FROM fournisseur";
-$result = mysqli_query($connect, $query);
+$result = $connect->prepare( $query);
+$result->execute();
 $chart_data = '';
-while($row = mysqli_fetch_array($result))
+while($row = $result->fetchAll(PDO::FETCH_ASSOC))
 {
  $chart_data .= "{ nom:'".$row["nom"]."', salaire:".$row["salaire"]."}, ";
 }

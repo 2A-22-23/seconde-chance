@@ -2,9 +2,10 @@
 session_start();
 $message="";
 if(count($_POST)>0) {
-$con = mysqli_connect('localhost','root','','projet') or die('Unable To connect');
-$result = mysqli_query($con,"SELECT * FROM client WHERE email='" . $_POST["user_name"] . "' and mdp = '". $_POST["password"]."'");
-$row  = mysqli_fetch_array($result);
+$connect = new PDO("mysql:host=localhost;dbname=projet;charset:utf8", "root", "");
+$result = $connect->prepare("SELECT * FROM client WHERE email='" . $_POST["user_name"] . "' and mdp = '". $_POST["password"]."'");
+$result->execute();
+$row  = $result->fetchAll(PDO::FETCH_ASSOC);
 if(is_array($row)) {
 $_SESSION["id"] = $row['id'];
 $_SESSION["name"] = $row['nom'];
